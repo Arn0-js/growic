@@ -14,9 +14,9 @@ contract YourContract {
   }
 
   function checkBalance() view public returns(uint256){
-    uint256 tempBal = balances[address(msg.sender)];
+    uint256 tempBal = balances[msg.sender];
     console.log("Check balance for ",msg.sender, ": ",tempBal);
-    return tempBal; //balances[address(msg.sender)]
+    return tempBal; //balances[msg.sender]
   }
 
 }
