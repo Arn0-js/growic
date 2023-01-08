@@ -29,11 +29,8 @@ contract YourContract {
 
 /// deposit function storing the amount of deposited amount. 
   function deposit (uint256 amount) public payable amountCheck(amount) {
-    // require(msg.value == amount,"Please pay the amount"); // replaced by a custom error, personnal initiative
       balances[msg.sender] += amount; 
-      emit FundsDeposited(msg.sender,amount);
-      console.log(amount," added for ",msg.sender);
-
+      emit FundsDeposited(msg.sender,amount); // emits the event of Deposited funds
   }
 
  modifier existingDeposit(){
@@ -44,14 +41,13 @@ contract YourContract {
 
 modifier checkFee(uint256 _amount){
 uint256 Fee = tx.gasprice;
-console.log("Fee comparison with the amount:",Fee," < ",_amount);
 if(_amount<Fee) revert amountTooSmall();
  _;
 }
 
 function addFund (uint256 amount) public payable existingDeposit() checkFee(amount){
   balances[msg.sender] += amount; 
-  emit FundsDeposited(msg.sender,amount);
+  emit FundsDeposited(msg.sender,amount); // emits the event of Deposited funds
 }
 
 modifier ownerOnly{
@@ -76,6 +72,7 @@ function withdraw (uint256 amount) public ownerOnly {
 /// function allowing user (sender) to set their personnal details 
   function setUserDetails(string calldata name, uint256 age) public{ 
    userDetails[msg.sender] = userDetail(name,age);
+   emit ProfileUpdated(msg.sender);
   }
 
 /// returns the personnal details of the user (sender)
