@@ -79,8 +79,4 @@ function withdraw (uint256 amount) public ownerOnly {
    return (det.name, det.age);
   }
 
-  // to support receiving ETH by default
-  receive() external payable {}
-  fallback() external payable {}
-
 }
