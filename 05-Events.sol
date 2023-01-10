@@ -12,7 +12,7 @@ contract YourContract {
   
   mapping(address => uint256) public balances;
   mapping(address => userDetail) public userDetails;
-  
+  uint256 private immutable Fee;
   address public owner = 0xDfDfDF033E7248df0770FC9f02a0DE5AeE625cf6;
   error unauthorized(); 
   error insufficientBalance();
@@ -22,6 +22,9 @@ contract YourContract {
   event FundsDeposited(address indexed user, uint256 amount); // indexed address to ease the filtering of the event for a specific user
   event ProfileUpdated(address indexed user);
 
+ constructor() {
+  Fee = tx.gasprice;
+}
   modifier amountCheck(uint256 _amount){
  if(msg.value < _amount) revert insufficientAmount();
   _;
@@ -40,12 +43,11 @@ contract YourContract {
 }
 
 modifier checkFee(uint256 _amount){
-uint256 Fee = tx.gasprice;
 if(_amount<Fee) revert amountTooSmall();
  _;
 }
 
-function addFund (uint256 amount) public payable existingDeposit() checkFee(amount){
+function addFund (uint256 amount) public payable existingDeposit checkFee(amount){
   balances[msg.sender] += amount; 
   emit FundsDeposited(msg.sender,amount); // emits the event of Deposited funds
 }
