@@ -5,7 +5,7 @@ import "hardhat/console.sol";
 
 contract A {
 
-    address public immutable owner;
+    address private immutable owner;
     uint public FEE;
     
     constructor(uint _fee) {
@@ -18,16 +18,13 @@ contract A {
 
 contract B is A {
 
-  // Note to mentor:
-  // Instructions says :  contract B should also have an owner variable that is set in the constructor
-  // BUT
-  // - owner is inherited from A. (so, as is, owner is set and public when contract B is deployed)
-  // - We can only override functions in Solidity, not variables.
-  // Immutable variables must be initialized in the constructor of the contract they are defined in. 
-   
+address public immutable owner; 
 
   constructor() A(20) {
-    // owner= msg.sender;
+     owner= msg.sender;
   }
+
+   function getOWner() public view returns(address)
+   {  return owner; }
 
 }
